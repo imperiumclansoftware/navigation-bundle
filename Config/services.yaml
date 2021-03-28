@@ -1,0 +1,9 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  ICS\NavigationBundle\Twig\:
+    resource: "../src/Twig"
+    public: false
+    tags: ['twig.extension']

@@ -1,0 +1,47 @@
+
+<nav id="sidebar" class="{{ NavigationTextColor }} bg-{{ NavigationColor }}">
+    <div class="custom-menu">
+        <button type="button" id="sidebarCollapse" class="btn btn-primary"></button>
+    </div>
+    <div class="img bg-wrap text-center py-4" style="background-image: url({{ asset(NavigationImage) }});">
+        <div class="user-logo">
+            <div class="img" style="background-image: url({{ asset('') }});"></div>
+            <h3>{{ NavigationBrand|default("") }}</h3>
+        </div>
+    </div>
+    <ul class="list-unstyled components mb-5">
+         {% for item in NavigationItems %}
+            {% if item.roles|length > 0 %}
+                {% set granted=false %}
+                {% for role in item.roles %}
+                    {% set granted = (granted or is_granted(role)) %}
+                {% endfor %}
+            {% else %}
+                {% set granted=true %}
+            {% endif %}
+            {% if  granted %}
+                {% if item.lib=='divider' %}
+                    <li class="dropdown-divider"></li>
+                {% else %}
+                    {% if app.request.attributes.get('_route') == item.route %}
+                        {% set activeClass='active' %}
+                    {% else %}
+                        {% set activeClass='' %}
+                    {% endif %}
+                    <li class="{{ activeClass }}">
+                        <a  id="navbarDropdown{{ loop.index }}" href="{{ path(item.route) }}">
+                            {% if item.icon!="" %}
+                                    <i class="{{ item.icon }}"></i>
+                            {% endif %}
+                            {% if item.lib!="" %}
+                                {{ item.lib|trans }}
+                            {% endif %}
+                        </a>
+                    </li>
+                {% endif %}
+            {% endif %}
+         {% endfor %}
+    </ul>
+</nav>
+
+
