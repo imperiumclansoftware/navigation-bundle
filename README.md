@@ -9,15 +9,47 @@ This bundle provide Bootstrap Navigation bar configure in config files
 
 ## Installation
 
-Navigation Bundle requires PHP 7.2 or higher and Symfony 4.4 or higher. Run the following command to install it in your application:
 
+Make sure Composer is installed globally, as explained in the
+[installation chapter](https://getcomposer.org/doc/00-intro.md)
+of the Composer documentation.
+
+### Applications that use Symfony Flex
+
+Open a command console, enter your project directory and execute:
+
+```console
+composer require ics/navigation-bundle
 ```
-$ composer require imperiumclan/navigation-bundle
+
+### Applications that don't use Symfony Flex
+
+#### Step 1: Download the Bundle
+
+Open a command console, enter your project directory and execute the
+following command to download the latest stable version of this bundle:
+
+```console
+$ composer require ics/navigation-bundle
 ```
 
-## Documentation
+#### Step 2: Enable the Bundle
 
-### Configuration
+Then, enable the bundle by adding it to the list of registered bundles
+in the `config/bundles.php` file of your project:
+
+```php
+// config/bundles.php
+
+return [
+    // ...
+    ICS\NavigationBundle\NavigationBundle::class => ['all' => true],
+];
+```
+
+## Configuration
+
+### Simple configuraton
 
 ```yaml
 
@@ -57,6 +89,51 @@ And Add renderer in your base.html.twig
         {{ renderNavBar('mainnav') }}
 ```
 
+## Full configuration
+
+this is the full configuration with default value
+
+```yaml
+
+  navigation:
+    usermenu:
+      activate: false
+      autolib: true
+      lib: User Menu
+      connexionlib: Sign In
+      connexionicon : fa fa-sign-in-alt
+      connexionroute: app-login
+      childs:
+        item1:
+          lib: ''
+          icon: ''
+          route: ''
+          roles: []
+      navbars:
+        navbar1: ''
+          brand: ''
+          brandRoute: homepage
+          brandIcon: ''
+          brandImage: ''
+          type: navbar # navbar or sidebar
+          searchenabled: false
+          searchroute: search
+          color: light # primary, secondary, success, danger, warning, info, light, dark, white, transparent
+          fixed: none # none, top, bottom, sticky
+          items:
+            items1:
+              lib: ''
+              icon: ''
+              route: ''
+              roles: []
+              childs:
+                child1:
+                  lib: ''
+                  icon: ''
+                  route: ''
+                  roles: []
+
+```
 
 ## License
 
