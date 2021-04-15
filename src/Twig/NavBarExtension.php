@@ -2,7 +2,6 @@
 
 namespace ICS\NavigationBundle\Twig;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
