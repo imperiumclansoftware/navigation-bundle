@@ -4,6 +4,6 @@ services:
     autoconfigure: true
 
   ICS\NavigationBundle\Twig\:
-    resource: "../src/twig"
+    resource: "../src/Twig"
     public: false
     tags: ['twig.extension']
