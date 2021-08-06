@@ -2,7 +2,7 @@
     "name": "ics/navigation-bundle",
     "description": "Bundle for symfony navigation",
     "type": "symfony-bundle",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "license": "MIT",
     "autoload": {
         "psr-4": {
