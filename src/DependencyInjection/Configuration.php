@@ -2,8 +2,8 @@
 
 namespace ICS\NavigationBundle\DependencyInjection;
 
-use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 
 class Configuration implements ConfigurationInterface
 {
@@ -28,6 +28,11 @@ class Configuration implements ConfigurationInterface
                                 ->scalarNode('lib')->defaultValue('')->end()
                                 ->scalarNode('icon')->defaultValue('')->end()
                                 ->scalarNode('route')->defaultValue('')->end()
+                                ->scalarNode('url')->defaultValue('')->end()
+                                ->arrayNode('attrs')
+                                    ->scalarPrototype('name')->end()
+                                    ->scalarPrototype('value')->end()
+                                ->end()
                                 ->arrayNode('roles')
                                     ->scalarPrototype()->end()
                                 ->end()
@@ -74,6 +79,11 @@ class Configuration implements ConfigurationInterface
                                             ->scalarNode('lib')->defaultValue('')->end()
                                             ->scalarNode('icon')->defaultValue('')->end()
                                             ->scalarNode('route')->defaultValue('')->end()
+                                            ->scalarNode('url')->defaultValue('')->end()
+                                            ->arrayNode('attrs')
+                                                ->scalarPrototype('name')->end()
+                                                ->scalarPrototype('value')->end()
+                                            ->end()
                                             ->arrayNode('roles')
                                                 ->scalarPrototype()->end()
                                             ->end()

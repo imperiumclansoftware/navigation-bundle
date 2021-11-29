@@ -15,7 +15,7 @@
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#{{ NavigationName }}" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ 'Toggle navigation'|trans }}">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="{{ NavigationName }}">
+    <div class="collapse navbar-collapse introduction-page" data-title="Barre de navigation" data-intro="Vous trouverez ici vos applications" id="{{ NavigationName }}">
         <ul class="navbar-nav mr-auto">
             {% for item in NavigationItems %}
 
@@ -92,7 +92,15 @@
                             </li>
                         {% else %}
                             <li class="nav-item {{ activeClass }}">
-                                <a class="nav-link" href="{{ path(item.route) }}">
+                                    {% set attributes = '' %}
+                                    {% for attr in item.attrs %}
+                                        {% set attributes = attributes ~ ' ' ~ attr.name ~ '="' ~ attr.value ~ '"' %}    
+                                    {% endfor %}
+                                    {% if child.route != '' %}
+                                        <a class="dropdown-item" {{ attributes }}  href="{{ path(item.route) }}">
+                                    {% else %}
+                                        <a class="dropdown-item" {{ attributes }} href="{{ path(item.url) }}">
+                                    {% endif %}
                                     {% if item.icon!="" %}
                                         <i class="{{ item.icon }}"></i>
                                     {% endif %}
@@ -107,7 +115,7 @@
             {% endfor %}
         </ul>
         {% if NavigationUserMenuActivate %}
-            <ul class="navbar-nav float-right">
+            <ul class="navbar-nav float-right introduction-page" data-title="Barre de navigation" data-intro="Vous trouverez ici vos applications">
                 {% if app.user %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUsermenu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -133,7 +141,16 @@
                                     {% if child.lib=='divider' %}
                                         <div class="dropdown-divider"></div>
                                     {% else %}
-                                        <a class="dropdown-item" href="{{ path(child.route) }}">
+                                        {% set attributes = '' %}
+                                        {% for attr in child.attrs %}
+                                            {% set attributes = attributes ~ ' ' ~ attr.name ~ '="' ~ attr.value ~ '"' %}    
+                                        {% endfor %}
+                                        {% if child.route != '' %}
+                                            <a class="dropdown-item" {{ attributes }} href="{{ path(child.route) }}">
+                                        {% else %}
+                                            <a class="dropdown-item" {{ attributes }} href="{{ path(child.url) }}">
+                                        {% endif %}
+                                        
                                         {% if child.icon!="" %}
                                             <i class="{{ child.icon }}"></i>
                                         {% endif %}

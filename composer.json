@@ -15,7 +15,8 @@
         "symfony/config": "^5.2",
         "twig/twig": "^3.3",
         "symfony/twig-bundle": "^5.2",
-        "twig/extra-bundle": "^3.3"
+        "twig/extra-bundle": "^3.3",
+        "ics/userhelp-bundle": "^0.0.1"
     }
 
 }
