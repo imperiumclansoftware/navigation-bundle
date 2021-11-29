@@ -2,10 +2,10 @@
 
 namespace ICS\NavigationBundle\Twig;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Twig\Environment;
-use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
+use Twig\Extension\AbstractExtension;
+use Twig\Environment;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * NavBarExtension.
@@ -52,7 +52,7 @@ class NavBarExtension extends AbstractExtension
         $navbrand = 'Navigation';
         $navbrandRoute = 'homepage';
         $navcolor = 'light';
-        $navtextcolor = 'navbar-light';
+        $navtextcolor = 'text-light';
         $navFixedPosition = '';
         $navBrandImage = '';
         $navBrandIcon = '';
@@ -61,6 +61,7 @@ class NavBarExtension extends AbstractExtension
 
         if (array_key_exists($navName, $navigation['navbars'])) {
             $navbar = $navigation['navbars'][$navName]['items'];
+            $navbarTools = $navigation['navbars'][$navName]['tools'];
             $navbrand = $navigation['navbars'][$navName]['brand'];
             $navBrandImage = $navigation['navbars'][$navName]['brandImage'];
             $navBrandIcon = $navigation['navbars'][$navName]['brandIcon'];
@@ -74,7 +75,7 @@ class NavBarExtension extends AbstractExtension
                 case 'danger':
                 case 'info':
                 case 'dark':
-                    $navtextcolor = 'navbar-dark';
+                    $navtextcolor = 'text-light';
             }
 
             switch ($navFixed) {
@@ -131,6 +132,7 @@ class NavBarExtension extends AbstractExtension
                 'NavigationUserMenuConnexionRoute' => $userMenuConnexionRoute,
                 'NavigationSearchEnabled' => $searchEnabled,
                 'NavigationSearchRoute' => $searchRoute,
+                'NavigationTools' => $navbarTools,
             ]);
         } elseif ('sidebar' == $navigation['navbars'][$navName]['type']) {
             return $twig->render('@Navigation/sidebar.html.twig', [
