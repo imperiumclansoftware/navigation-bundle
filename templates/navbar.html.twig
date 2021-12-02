@@ -1,290 +1,291 @@
 {% trans_default_domain('navigation') %}
 
 <nav class="navbar navbar-expand-lg navbar-{{ NavigationColor }} {{ NavigationFixed }} {{ NavigationTextColor }} bg-{{ NavigationColor }}">
-    <div class="container-fluid">
-    <a class="navbar-brand" href="{{ path(NavigationBrandRoute) }}">
-        {% if NavigationImage!="" %}
-            <img src="{{ asset(NavigationImage) }}"  width="30" height="30" alt="" loading="lazy" />
-        {% endif %}
-        {% if NavigationIcon!="" %}
-            <i class="{{ NavigationIcon }}"></i>
-        {% endif %}
-        {% if NavigationBrand!="" %}
-            {{ NavigationBrand|default('Navigation')|trans }}
-        {% endif %}
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="{{ NavigationName }}">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            {% for item in NavigationItems %}
+	<div class="container-fluid">
+		<a class="navbar-brand" href="{{ path(NavigationBrandRoute) }}">
+			{% if NavigationImage!="" %}
+				<img src="{{ asset(NavigationImage) }}" width="30" height="30" alt="" loading="lazy"/>
+			{% endif %}
+			{% if NavigationIcon!="" %}
+				<i class="{{ NavigationIcon }}"></i>
+			{% endif %}
+			{% if NavigationBrand!="" %}
+				{{ NavigationBrand|default('Navigation')|trans }}
+			{% endif %}
+		</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="{{ NavigationName }}">
+			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+				{% for item in NavigationItems %}
 
-                {% if item.roles|length > 0 %}
-                    {% set granted=false %}
-                    {% for role in item.roles %}
-                        {% set granted = (granted or is_granted(role)) %}
-                    {% endfor %}
-                {% else %}
-                    {% set granted=true %}
-                {% endif %}
+					{% if item.roles|length > 0 %}
+						{% set granted=false %}
+						{% for role in item.roles %}
+							{% set granted = (granted or is_granted(role)) %}
+						{% endfor %}
+					{% else %}
+						{% set granted=true %}
+					{% endif %}
 
-                {% if app.request.attributes.get('_route') == item.route %}
-                    {% set activeClass='active' %}
-                {% else %}
-                    {% set activeClass='' %}
-                {% endif %}
-                {% for child in item.childs %}
-                    {% if app.request.attributes.get('_route') == child.route %}
-                        {% set childActiveClass='active' %}
-                        {% set activeClass='active' %}
-                    {% else %}
-                        {% set childActiveClass='' %}
-                        {% set activeClass='' %}
-                    {% endif %}
-                {% endfor %}
-                    {% if granted %}
-                        {% if item.childs|length > 0 %}
-                            <li class="nav-item dropdown {{ activeClass }}">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown-{{ loop.index }}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    {% if item.icon!="" %}
-                                            <i class="{{ item.icon }}"></i>
-                                    {% endif %}
-                                    {% if item.lib!="" %}
-                                        {{ item.lib|trans }}
-                                    {% endif %}
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown-{{ loop.index }}">
-                                    {% for child in item.childs %}
-                                        {% if child.roles|length > 0 %}
-                                            {% set childgranted=false %}
-                                            {% for role in child.roles %}
-                                                {% set childgranted = (childgranted or is_granted(role)) %}
-                                            {% endfor %}
-                                        {% else %}
-                                            {% set childgranted=true %}
-                                        {% endif %}
-                                        {% if childgranted %}
-                                            {% if child.lib=='divider' %}
-                                                <li><hr class="dropdown-divider"/></li>
-                                            {% else %}
-                                                {% if app.request.attributes.get('_route') == child.route %}
-                                                    {% set childActiveClass='active' %}
-                                                {% else %}
-                                                    {% set childActiveClass='' %}
-                                                {% endif %}
-                                                <li>
-                                                    <a class="dropdown-item {{ childActiveClass }}" href="{{ path(child.route) }}">
-                                                    {% if child.icon!="" %}
-                                                        <i class="{{ child.icon }}"></i>
-                                                    {% endif %}
-                                                    {% if child.lib!="" %}
-                                                        {{ child.lib|trans }}
-                                                    {% endif %}
+					{% if app.request.attributes.get('_route') == item.route %}
+						{% set activeClass='active' %}
+					{% else %}
+						{% set activeClass='' %}
+					{% endif %}
+					{% for child in item.childs %}
+						{% if app.request.attributes.get('_route') == child.route %}
+							{% set childActiveClass='active' %}
+							{% set activeClass='active' %}
+						{% else %}
+							{% set childActiveClass='' %}
+							{% set activeClass='' %}
+						{% endif %}
+					{% endfor %}
+					{% if granted %}
+						{% if item.childs|length > 0 %}
+							<li class="nav-item dropdown {{ activeClass }}">
+								<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown-{{ loop.index }}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+									{% if item.icon!="" %}
+										<i class="{{ item.icon }}"></i>
+									{% endif %}
+									{% if item.lib!="" %}
+										{{ item.lib|trans }}
+									{% endif %}
+								</a>
+								<ul class="dropdown-menu" aria-labelledby="navbarDropdown-{{ loop.index }}">
+									{% for child in item.childs %}
+										{% if child.roles|length > 0 %}
+											{% set childgranted=false %}
+											{% for role in child.roles %}
+												{% set childgranted = (childgranted or is_granted(role)) %}
+											{% endfor %}
+										{% else %}
+											{% set childgranted=true %}
+										{% endif %}
+										{% if childgranted %}
+											{% if child.lib=='divider' %}
+												<li><hr class="dropdown-divider"/></li>
+											{% else %}
+												{% if app.request.attributes.get('_route') == child.route %}
+													{% set childActiveClass='active' %}
+												{% else %}
+													{% set childActiveClass='' %}
+												{% endif %}
+												<li>
+													<a class="dropdown-item {{ childActiveClass }}" href="{{ path(child.route) }}">
+														{% if child.icon!="" %}
+															<i class="{{ child.icon }}"></i>
+														{% endif %}
+														{% if child.lib!="" %}
+															{{ child.lib|trans }}
+														{% endif %}
 
-                                                    </a>
-                                                </li>
-                                            {% endif %}
-                                        {% endif %}
-                                    {% endfor %}
+													</a>
+												</li>
+											{% endif %}
+										{% endif %}
+									{% endfor %}
 
-                                </ul>
-                            </li>
-                        {% else %}
-                            <li class="nav-item {{ activeClass }}">
-                                    {% set attributes = '' %}
-                                    {% for key,attr in item.attrs %}
-                                        {% set attributes = attributes ~ ' ' ~ key ~ '=' ~ attr %}    
-                                    {% endfor %}
-                                    {% if item.route != '' %}
-                                        <a class="nav-link" {{ attributes }}  href="{{ path(item.route) }}">
-                                    {% else %}
-                                        <a class="nav-link" {{ attributes }} href="{{ item.url }}">
-                                    {% endif %}
-                                    {% if item.icon!="" %}
-                                        <i class="{{ item.icon }}"></i>
-                                    {% endif %}
-                                    {% if item.lib!="" %}
-                                        {{ item.lib|trans }}
-                                    {% endif %}
-                                </a>
-                            </li>
-                        {% endif %}
-                    {% endif %}
+								</ul>
+							</li>
+						{% else %}
+							<li class="nav-item {{ activeClass }}">
+								{% set attributes = '' %}
+								{% for key,attr in item.attrs %}
+									{% set attributes = attributes ~ ' ' ~ key ~ '=' ~ attr %}
+								{% endfor %}
+								{% if item.route != '' %}
+									<a class="nav-link" {{ attributes }} href="{{ path(item.route) }}">
+									{% else %}
+										<a class="nav-link" {{ attributes }} href="{{ item.url }}">
+										{% endif %}
+										{% if item.icon!="" %}
+											<i class="{{ item.icon }}"></i>
+										{% endif %}
+										{% if item.lib!="" %}
+											{{ item.lib|trans }}
+										{% endif %}
+									</a>
+								</li>
+							{% endif %}
+						{% endif %}
 
-            {% endfor %}
-        </ul>
+					{% endfor %}
+				</ul>
 
-        <ul class="navbar-nav mr-auto float-right">
-            {% for item in NavigationTools %}
+				<ul id="navtools-{{ NavigationName }}" class="navbar-nav mr-auto float-right">
+					{% for item in NavigationTools %}
 
-                {% if item.roles|length > 0 %}
-                    {% set granted=false %}
-                    {% for role in item.roles %}
-                        {% set granted = (granted or is_granted(role)) %}
-                    {% endfor %}
-                {% else %}
-                    {% set granted=true %}
-                {% endif %}
+						{% if item.roles|length > 0 %}
+							{% set granted=false %}
+							{% for role in item.roles %}
+								{% set granted = (granted or is_granted(role)) %}
+							{% endfor %}
+						{% else %}
+							{% set granted=true %}
+						{% endif %}
 
-                {% if app.request.attributes.get('_route') == item.route %}
-                    {% set activeClass='active' %}
-                {% else %}
-                    {% set activeClass='' %}
-                {% endif %}
-                {% for child in item.childs %}
-                    {% if app.request.attributes.get('_route') == child.route %}
-                        {% set childActiveClass='active' %}
-                        {% set activeClass='active' %}
-                    {% else %}
-                        {% set childActiveClass='' %}
-                        {% set activeClass='' %}
-                    {% endif %}
-                {% endfor %}
-                    {% if granted %}
-                        {% if item.childs|length > 0 %}
-                            <li class="nav-item dropdown {{ activeClass }}">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown-{{ loop.index }}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    {% if item.icon!="" %}
-                                            <i class="{{ item.icon }}"></i>
-                                    {% endif %}
-                                    {% if item.lib!="" %}
-                                        {{ item.lib|trans }}
-                                    {% endif %}
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown-{{ loop.index }}">
-                                    {% for child in item.childs %}
-                                        {% if child.roles|length > 0 %}
-                                            {% set childgranted=false %}
-                                            {% for role in child.roles %}
-                                                {% set childgranted = (childgranted or is_granted(role)) %}
-                                            {% endfor %}
-                                        {% else %}
-                                            {% set childgranted=true %}
-                                        {% endif %}
-                                        {% if childgranted %}
-                                            {% if child.lib=='divider' %}
-                                                <li><hr class="dropdown-divider"/></li>
-                                            {% else %}
-                                                {% if app.request.attributes.get('_route') == child.route %}
-                                                    {% set childActiveClass='active' %}
-                                                {% else %}
-                                                    {% set childActiveClass='' %}
-                                                {% endif %}
-                                                <li>
-                                                    <a class="dropdown-item {{ childActiveClass }}" href="{{ path(child.route) }}">
-                                                    {% if child.icon!="" %}
-                                                        <i class="{{ child.icon }}"></i>
-                                                    {% endif %}
-                                                    {% if child.lib!="" %}
-                                                        {{ child.lib|trans }}
-                                                    {% endif %}
+						{% if app.request.attributes.get('_route') == item.route %}
+							{% set activeClass='active' %}
+						{% else %}
+							{% set activeClass='' %}
+						{% endif %}
+						{% for child in item.childs %}
+							{% if app.request.attributes.get('_route') == child.route %}
+								{% set childActiveClass='active' %}
+								{% set activeClass='active' %}
+							{% else %}
+								{% set childActiveClass='' %}
+								{% set activeClass='' %}
+							{% endif %}
+						{% endfor %}
+						{% if granted %}
+							{% if item.childs|length > 0 %}
+								<li class="nav-item dropdown {{ activeClass }}">
+									<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown-{{ loop.index }}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+										{% if item.icon!="" %}
+											<i class="{{ item.icon }}"></i>
+										{% endif %}
+										{% if item.lib!="" %}
+											{{ item.lib|trans }}
+										{% endif %}
+									</a>
+									<ul class="dropdown-menu" aria-labelledby="navbarDropdown-{{ loop.index }}">
+										{% for child in item.childs %}
+											{% if child.roles|length > 0 %}
+												{% set childgranted=false %}
+												{% for role in child.roles %}
+													{% set childgranted = (childgranted or is_granted(role)) %}
+												{% endfor %}
+											{% else %}
+												{% set childgranted=true %}
+											{% endif %}
+											{% if childgranted %}
+												{% if child.lib=='divider' %}
+													<li><hr class="dropdown-divider"/></li>
+												{% else %}
+													{% if app.request.attributes.get('_route') == child.route %}
+														{% set childActiveClass='active' %}
+													{% else %}
+														{% set childActiveClass='' %}
+													{% endif %}
+													<li>
+														<a class="dropdown-item {{ childActiveClass }}" href="{{ path(child.route) }}">
+															{% if child.icon!="" %}
+																<i class="{{ child.icon }}"></i>
+															{% endif %}
+															{% if child.lib!="" %}
+																{{ child.lib|trans }}
+															{% endif %}
 
-                                                    </a>
-                                                </li>
-                                            {% endif %}
-                                        {% endif %}
-                                    {% endfor %}
+														</a>
+													</li>
+												{% endif %}
+											{% endif %}
+										{% endfor %}
 
-                                </ul>
-                            </li>
-                        {% else %}
-                            <li class="nav-item {{ activeClass }}">
-                                    {% set attributes = '' %}
-                                    {% for key,attr in item.attrs %}
-                                        {% set attributes = attributes ~ ' ' ~ key ~ '=' ~ attr %}    
-                                    {% endfor %}
-                                    {% if item.route != '' %}
-                                        <a class="nav-link" {{ attributes }}  href="{{ path(item.route) }}">
-                                    {% else %}
-                                        <a class="nav-link" {{ attributes }} href="{{ item.url }}">
-                                    {% endif %}
-                                    {% if item.icon!="" %}
-                                        <i class="{{ item.icon }}"></i>
-                                    {% endif %}
-                                    {% if item.lib!="" %}
-                                        {{ item.lib|trans }}
-                                    {% endif %}
-                                </a>
-                            </li>
-                        {% endif %}
-                    {% endif %}
+									</ul>
+								</li>
+							{% else %}
+								<li class="nav-item {{ activeClass }}">
+									{% set attributes = '' %}
+									{% for key,attr in item.attrs %}
+										{% set attributes = attributes ~ ' ' ~ key ~ '=' ~ attr %}
+									{% endfor %}
+									{% if item.route != '' %}
+										<a class="nav-link" {{ attributes }} href="{{ path(item.route) }}">
+										{% else %}
+											<a class="nav-link" {{ attributes }} href="{{ item.url }}">
+											{% endif %}
+											{% if item.icon!="" %}
+												<i class="{{ item.icon }}"></i>
+											{% endif %}
+											{% if item.lib!="" %}
+												{{ item.lib|trans }}
+											{% endif %}
+										</a>
+									</li>
+								{% endif %}
+							{% endif %}
 
-            {% endfor %}
-        </ul>
-        {% if NavigationUserMenuActivate %}
-            <ul class="navbar-nav mr-auto float-right introduction-page" data-title="Barre de navigation" data-intro="Vous trouverez ici vos applications">
-                {% if app.user %}
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUsermenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fa fa-user"></i>
-                            {% if NavigationUserMenuAuto %}
-                                {{ app.user }}
-                            {% else %}
-                                {{ NavigationUserMenuLib|trans }}
-                            {% endif %}
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownUsermenu">
-                            {% for child in NavigationUserMenu %}
+						{% endfor %}
+					</ul>
+					{% if NavigationUserMenuActivate %}
+						<ul class="navbar-nav mr-auto float-right introduction-page" data-title="Barre de navigation" data-intro="Vous trouverez ici vos applications">
+							{% if app.user %}
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUsermenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+										<i class="fa fa-user"></i>
+										{% if NavigationUserMenuAuto %}
+											{{ app.user }}
+										{% else %}
+											{{ NavigationUserMenuLib|trans }}
+										{% endif %}
+									</a>
+									<ul class="dropdown-menu" aria-labelledby="navbarDropdownUsermenu">
+										{% for child in NavigationUserMenu %}
 
-                                {% if child.roles|length > 0 %}
-                                    {% set granted=false %}
-                                    {% for role in child.roles %}
-                                        {% set granted = (granted or is_granted(role)) %}
-                                    {% endfor %}
-                                {% else %}
-                                    {% set granted=true %}
-                                {% endif %}
-                                {% if granted %}
-                                    {% if child.lib=='divider' %}
-                                        <li><hr class="dropdown-divider" /></li>
-                                    {% else %}
-                                    <li>
-                                        {% set attributes = '' %}
-                                        {% for attr in child.attrs %}
-                                            {% set attributes = attributes ~ ' ' ~ attr.name ~ '="' ~ attr.value ~ '"' %}    
-                                        {% endfor %}
-                                        {% if child.route != '' %}
-                                            <a class="dropdown-item" {{ attributes }} href="{{ path(child.route) }}">
-                                        {% else %}
-                                            <a class="dropdown-item" {{ attributes }} href="{{ child.url }}">
-                                        {% endif %}
-                                        
-                                        {% if child.icon!="" %}
-                                            <i class="{{ child.icon }}"></i>
-                                        {% endif %}
-                                        {% if child.lib!="" %}
-                                            {{ child.lib|trans }}
-                                        {% endif %}
+											{% if child.roles|length > 0 %}
+												{% set granted=false %}
+												{% for role in child.roles %}
+													{% set granted = (granted or is_granted(role)) %}
+												{% endfor %}
+											{% else %}
+												{% set granted=true %}
+											{% endif %}
+											{% if granted %}
+												{% if child.lib=='divider' %}
+													<li><hr class="dropdown-divider"/></li>
+												{% else %}
+													<li>
+														{% set attributes = '' %}
+														{% for attr in child.attrs %}
+															{% set attributes = attributes ~ ' ' ~ attr.name ~ '="' ~ attr.value ~ '"' %}
+														{% endfor %}
+														{% if child.route != '' %}
+															<a class="dropdown-item" {{ attributes }} href="{{ path(child.route) }}">
+															{% else %}
+																<a class="dropdown-item" {{ attributes }} href="{{ child.url }}">
+																{% endif %}
 
-                                        </a>
-                                    </li>
-                                    {% endif %}
-                                {% endif %}
-                            {% endfor %}
-                        </ul>
-                    </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path(NavigationUserMenuConnexionRoute) }}">
-                            <i class="{{ NavigationUserMenuConnexionIcon }}"></i> {{ NavigationUserMenuConnexionLib|trans }}
-                        </a>
-                    </li>
-                {% endif %}
-            </ul>
-        {% endif %}
-        {% if NavigationSearchEnabled %}
-            <form class="form-inline" method="POST" action="{{ path(NavigationSearchRoute) }}">
-                <div class="input-group">
-                    <input class="form-control" placeholder="{{ 'Search'|trans }}" name="search" type="search" aria-label="{{ 'Search'|trans }}">
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </div>
-                </div>
-            </form>
-        {% endif %}
-    </div>
+																{% if child.icon!="" %}
+																	<i class="{{ child.icon }}"></i>
+																{% endif %}
+																{% if child.lib!="" %}
+																	{{ child.lib|trans }}
+																{% endif %}
 
-</nav>
+															</a>
+														</li>
+													{% endif %}
+												{% endif %}
+											{% endfor %}
+										</ul>
+									</li>
+								{% else %}
+									<li class="nav-item">
+										<a class="nav-link" href="{{ path(NavigationUserMenuConnexionRoute) }}">
+											<i class="{{ NavigationUserMenuConnexionIcon }}"></i>
+											{{ NavigationUserMenuConnexionLib|trans }}
+										</a>
+									</li>
+								{% endif %}
+							</ul>
+						{% endif %}
+						{% if NavigationSearchEnabled %}
+							<form class="form-inline" method="POST" action="{{ path(NavigationSearchRoute) }}">
+								<div class="input-group">
+									<input class="form-control" placeholder="{{ 'Search'|trans }}" name="search" type="search" aria-label="{{ 'Search'|trans }}">
+									<div class="input-group-append">
+										<button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+											<i class="fa fa-search"></i>
+										</button>
+									</div>
+								</div>
+							</form>
+						{% endif %}
+					</div>
+
+				</nav>

@@ -67,6 +67,7 @@ class NavBarExtension extends AbstractExtension
             $navBrandIcon = $navigation['navbars'][$navName]['brandIcon'];
             $navcolor = $navigation['navbars'][$navName]['color'];
             $navFixed = $navigation['navbars'][$navName]['fixed'];
+            $navPlacement = $navigation['navbars'][$navName]['placement'];
 
             switch ($navcolor) {
                 case 'primary':
@@ -78,16 +79,10 @@ class NavBarExtension extends AbstractExtension
                     $navtextcolor = 'text-light';
             }
 
-            switch ($navFixed) {
-                case 'top':
-                    $navFixedPosition = 'fixed-top';
-                break;
-                case 'bottom':
-                    $navFixedPosition = 'fixed-bottom';
-                break;
-                case 'sticky':
-                    $navFixedPosition = 'sticky-top';
-                break;
+            if ($navFixed != 'none' && $navFixed == 'fixed') {
+                $navFixedPosition = $navFixed . '-' . $navPlacement;
+            } elseif ($navFixed == 'sticky') {
+                $navFixedPosition = 'sticky-top';
             }
 
             $searchEnabled = $navigation['navbars'][$navName]['searchenabled'];
@@ -133,6 +128,7 @@ class NavBarExtension extends AbstractExtension
                 'NavigationSearchEnabled' => $searchEnabled,
                 'NavigationSearchRoute' => $searchRoute,
                 'NavigationTools' => $navbarTools,
+                'NavigationPlacement' => $navPlacement,
             ]);
         } elseif ('sidebar' == $navigation['navbars'][$navName]['type']) {
             return $twig->render('@Navigation/sidebar.html.twig', [
@@ -154,6 +150,7 @@ class NavBarExtension extends AbstractExtension
                 'NavigationUserMenuConnexionRoute' => $userMenuConnexionRoute,
                 'NavigationSearchEnabled' => $searchEnabled,
                 'NavigationSearchRoute' => $searchRoute,
+                'NavigationPlacement' => $navPlacement,
             ]);
         }
     }
