@@ -2,11 +2,11 @@
     "name": "ics/navigation-bundle",
     "description": "Bundle for symfony navigation",
     "type": "symfony-bundle",
-    "version": "0.0.8",
+    "version": "0.0.9",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "ICS\\NavigationBundle\\" : "/src"
+            "ICS\\NavigationBundle\\": "/src"
         }
     },
     "require": {
@@ -17,5 +17,4 @@
         "symfony/twig-bundle": "^5.2",
         "twig/extra-bundle": "^3.3"
     }
-
 }
