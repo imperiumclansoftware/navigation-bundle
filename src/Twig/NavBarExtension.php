@@ -61,6 +61,9 @@ class NavBarExtension extends AbstractExtension
 
         if (array_key_exists($navName, $navigation['navbars'])) {
             $navbar = $navigation['navbars'][$navName]['items'];
+            
+            $navbar=$this->orderItems($navbar);
+            
             $navbarTools = $navigation['navbars'][$navName]['tools'];
             $navbrand = $navigation['navbars'][$navName]['brand'];
             $navBrandImage = $navigation['navbars'][$navName]['brandImage'];
@@ -97,8 +100,9 @@ class NavBarExtension extends AbstractExtension
         $userMenuConnexionRoute = '';
         $userMenuConnexionIcon = '';
 
-        if ($navigation['usermenu']['activate']) {
+        if (isset($navigation['usermenu']) && $navigation['usermenu']['activate']) {
             $userMenu = $navigation['usermenu']['childs'];
+            $userMenu=$this->orderItems($userMenu);
             $userMenuActivate = $navigation['usermenu']['activate'];
             $userMenuAuto = $navigation['usermenu']['autolib'];
             $userMenuLib = $navigation['usermenu']['lib'];
@@ -163,5 +167,18 @@ class NavBarExtension extends AbstractExtension
     public function renderNavBarCss(Environment $twig)
     {
         return $twig->render('@Navigation/css.html.twig');
+    }
+
+    private function orderItems(array $navItems)
+    {
+        $result=[];
+        foreach($navItems as $item)
+        {
+            $result[str_pad($item['order'],5,"0",STR_PAD_LEFT)."_".$item['lib']]=$item;
+        }
+
+        ksort($result,SORT_ASC);
+
+        return $result;
     }
 }

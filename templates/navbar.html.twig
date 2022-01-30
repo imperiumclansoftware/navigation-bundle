@@ -226,7 +226,6 @@
 									</a>
 									<ul class="dropdown-menu" aria-labelledby="navbarDropdownUsermenu">
 										{% for child in NavigationUserMenu %}
-
 											{% if child.roles|length > 0 %}
 												{% set granted=false %}
 												{% for role in child.roles %}
