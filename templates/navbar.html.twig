@@ -143,7 +143,11 @@
 						{% endfor %}
 						{% if granted %}
 							{% if item.childs|length > 0 %}
-								<li class="nav-item dropdown {{ activeClass }}">
+								{% set attributes = '' %}
+								{% for key,attr in item.attrs %}
+									{% set attributes = attributes ~ ' ' ~ key ~ '=' ~ attr %}
+								{% endfor %}
+								<li class="nav-item dropdown {{ activeClass }}" {{ attributes }}>
 									<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown-{{ loop.index }}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 										{% if item.icon!="" %}
 											<i class="{{ item.icon }}"></i>
@@ -171,8 +175,20 @@
 													{% else %}
 														{% set childActiveClass='' %}
 													{% endif %}
+													{% if child.route != null %}
+														{% set finalUrl = path(child.route) %}
+													{% elseif child.url != null %}
+														{% set finalUrl = child.url %}
+													{% else %}
+														{% set finalUrl = '#' %}
+													{% endif %}
+													{% set attributes = '' %}
+													{% for key,attr in child.attrs %}
+														{% set attributes = attributes ~ ' ' ~ key ~ '=' ~ attr %}
+													{% endfor %}
 													<li>
-														<a class="dropdown-item {{ childActiveClass }}" href="{{ path(child.route) }}">
+													
+														<a class="dropdown-item {{ childActiveClass }}" href="{{ finalUrl }}" {{ attributes }}>
 															{% if child.icon!="" %}
 																<i class="{{ child.icon }}"></i>
 															{% endif %}
@@ -181,6 +197,7 @@
 															{% endif %}
 
 														</a>
+													
 													</li>
 												{% endif %}
 											{% endif %}

@@ -65,6 +65,10 @@ class NavBarExtension extends AbstractExtension
             $navbar=$this->orderItems($navbar);
             
             $navbarTools = $navigation['navbars'][$navName]['tools'];
+            foreach($navbarTools as $key=>$tools)
+            {
+                $navbarTools[$key]['childs'] = $this->orderItems($tools['childs']);
+            }
             $navbrand = $navigation['navbars'][$navName]['brand'];
             $navBrandImage = $navigation['navbars'][$navName]['brandImage'];
             $navBrandIcon = $navigation['navbars'][$navName]['brandIcon'];
